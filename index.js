@@ -40,6 +40,16 @@ const handlers = {
 		}, (error) => {
 			this.emit(':tell', "Sorry that has been an error.");
 		});
+	},
+
+	'OneCoinIntent': function() {
+		var coinName = coin.getSlotValue(this, 'Cryptocurrency');
+
+		coin.getCoinPrice(coinName).then((price) => {
+			this.emit(':tell', "The current price of " + coinName + " is " + price + " dollars.");
+		}, (error) => {
+			this.emit(':tell', "Sorry that has been an error.");
+		});
 	}
 };
 

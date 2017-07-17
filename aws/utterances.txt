@@ -3,3 +3,8 @@ TopTenIntent for a general summary
 TopTenIntent for an overview
 TopTenIntent for the top ten
 TopTenIntent the news
+
+OneCoinIntent the current price of {Cryptocurrency}
+OneCoinIntent the price of {Cryptocurrency}
+OneCoinIntent what {Cryptocurrency} is worth
+OneCoinIntent about {Cryptocurrency}

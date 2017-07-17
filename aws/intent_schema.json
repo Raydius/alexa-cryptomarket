@@ -2,6 +2,15 @@
   "intents": [
     {
       "intent": "TopTenIntent"
+    },
+    {
+      "slots": [
+        {
+          "name": "Cryptocurrency",
+          "type": "CRYPTOCURRENCY"
+        }
+      ],
+      "intent": "OneCoinIntent"
     }
   ]
 }
