@@ -35,18 +35,14 @@ const handlers = {
 
 	// get the top 10
 	'TopTenIntent': function() {
-		coin.getCoinPrice('bitcoin').then((price) => {
-			this.emit(':tell', "The current price of bitcoin is " + price + " dollars.");
-		}, (error) => {
-			this.emit(':tell', "Sorry that has been an error.");
-		});
+		this.emit(':tell', 'The current top 10');
 	},
 
 	'OneCoinIntent': function() {
 		var coinName = coin.getSlotValue(this, 'Cryptocurrency');
 
 		coin.getCoinPrice(coinName).then((price) => {
-			this.emit(':tell', "The current price of " + coinName + " is " + price + " dollars.");
+			this.emit(':tell', "The current price of " + coinName + " is " + coin.sayPrice(price));
 		}, (error) => {
 			this.emit(':tell', "Sorry that has been an error.");
 		});
