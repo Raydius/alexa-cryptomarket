@@ -14,54 +14,25 @@ var coin = require('./coin.js');
 
 const APP_ID = undefined;
 
-// in-app states
-const states = {
-	// main/welcome
-	WELCOME: '_WELCOME',
-	// per exchange queries
-	EXCHANGE: '_EXCHANGE',
-	// per coin queries
-	COIN: '_COIN'
-};
-
 // new session handlers
 const handlers = {
 
-	// new session
-	'Start': function() {
-		this.handler.state = states.WELCOME;
-		this.emitWithState('MainPrompt');
-	},
-
-	// get the top 10
-	'TopTenIntent': function() {
-		this.emit(':tell', 'The current top 10');
-	},
-
+	// ask about a coin price
 	'OneCoinIntent': function() {
 		var coinName = coin.getSlotValue(this, 'Cryptocurrency');
 
 		coin.getCoinPrice(coinName).then((price) => {
 			this.emit(':tell', "The current price of " + coinName + " is " + coin.sayPrice(price));
 		}, (error) => {
-			this.emit(':tell', "Sorry that has been an error.");
+			this.emit(':tell', "Sorry, I wasn't able to get the price of " + coinName + ", please try again later.");
 		});
 	}
 };
-
-var welcomeHandlers = Alexa.CreateStateHandler(states.WELCOME, {
-
-	// main welcome without specified intent
-	'MainPrompt': function() {
-		this.emit(':tell', 'What do you want to know about the current state of the crypto currency market?');
-	}
-
-});
 
 // export this module
 exports.handler = function(event, context, callback) {
 	var alexa = Alexa.handler(event, context);
 	alexa.APP_ID = APP_ID;
-	alexa.registerHandlers(handlers, welcomeHandlers);
+	alexa.registerHandlers(handlers);
 	alexa.execute();
 };
