@@ -35,8 +35,11 @@ const handlers = {
 
 	// get the top 10
 	'TopTenIntent': function() {
-		var price = coin.getCoinPrice('bitcoin');
-		this.emit(':tell', "The current average trading price of Bitcoin is "+price+" dollars.");
+		coin.getCoinPrice('bitcoin').then((price) => {
+			this.emit(':tell', "The current price of bitcoin is " + price + " dollars.");
+		}, (error) => {
+			this.emit(':tell', "Sorry that has been an error.");
+		});
 	}
 };
 
