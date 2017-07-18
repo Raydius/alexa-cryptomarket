@@ -1,6 +1,12 @@
 OneCoinIntent the current price of {Cryptocurrency}
 OneCoinIntent the market price of {Cryptocurrency}
 OneCoinIntent the price of {Cryptocurrency}
+OneCoinIntent whats the current price of {Cryptocurrency}
+OneCoinIntent whats the going rate of {Cryptocurrency}
+OneCoinIntent what is {Cryptocurrency} priced at
+OneCoinIntent what is {Cryptocurrency} worth
+OneCoinIntent what is {Cryptocurrency} trading at
+OneCoinIntent what is {Cryptocurrency} valued at
 OneCoinIntent what {Cryptocurrency} is worth
 OneCoinIntent what {Cryptocurrency} is trading at
 OneCoinIntent what {Cryptocurrency} is valued at
