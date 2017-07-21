@@ -7,7 +7,16 @@
           "type": "CRYPTOCURRENCY"
         }
       ],
-      "intent": "OneCoinIntent"
+      "intent": "CoinPriceIntent"
+    },
+    {
+      "slots": [
+        {
+          "name": "Cryptocurrency",
+          "type": "CRYPTOCURRENCY"
+        }
+      ],
+      "intent": "AboutCoinIntent"
     }
   ]
 }

@@ -6,38 +6,83 @@
 var coinmarketcap = require('coinmarketcap');
 global.fetch = require('node-fetch');
 
-var coin = {
 
-	// helper to get intent variables from Alexa
-	getSlotValue: function(alexa, slot) {
-		return (alexa.event.request.intent.slots[slot].value)
-			? alexa.event.request.intent.slots[slot].value
-			: null;
+function Coin(query) {
+	this.query = query;
+}
+
+
+Coin.prototype = {
+	constructor: Coin,
+
+	getData: function() {
+		// reset context
+		var self = this;
+
+		// look up the value of a single coin
+		return new Promise( function (resolve, reject) {
+
+			console.log('filteredCoinQuery', self.filteredCoinQuery());
+
+			coinmarketcap.tickerByAsset(self.filteredCoinQuery()).then(function(coinData) {
+				self.data = coinData;
+				resolve(coinData);
+			}).catch(function (err) {
+				console.log('getData() error', err);
+				reject(err);
+			});
+		});
+	},
+
+	filteredCoinQuery: function() {
+		// reset context
+		var self = this;
+
+		console.log('running filteredCoinQuery');
+
+		// translate common shorthands and misinterpretations
+		switch(self.query) {
+			default: return self.query;
+		}
+	},
+
+	sayName: function() {
+		// reset context
+		var self = this;
+
+		switch(self.data.name) {
+			case 'Litecoin': return "<phoneme alphabet=\"ipa\" ph=\"ˈlaɪt.kɔɪn\">litecoin</phoneme>";
+			default: return self.data.name;
+		}
 	},
 
 	// helper to better say a money value
-	sayPrice: function(value) {
+	sayPrice: function() {
+		// reset context
+		var self = this;
+		var value = self.data['price_usd'];
+
 		var dollars = Math.floor(value);
 		var cents = Math.round((value - dollars) * 100);
 
-		var phrase = dollars + " dollars";
-
-		if (cents > 0) {
-			phrase += " and " + cents + " cents";
-		}
-
-		return phrase;
+		return (cents > 0) ? dollars+" dollars and "+cents+" cents" : dollars + " dollars";
 	},
 
-	// look up the value of a single coin
-	getCoinPrice: function(coinName) {
-		return new Promise( function (resolve, reject) {
-			coinmarketcap.tickerByAsset(coinName).then(function(coinData) {
-				resolve(coinData["price_usd"]);
-			});
-		});
+	sayRank: function() {
+		// reset context
+		var self = this;
+		var rank = self.data['rank'];
+
+		switch(rank) {
+			case '1': return "first"; break;
+			case '2': return "second"; break;
+			case '3': return "third"; break;
+			default: return rank + 'th';
+		}
 	}
+
+
 
 };
 
-module.exports = coin;
+module.exports = Coin;
