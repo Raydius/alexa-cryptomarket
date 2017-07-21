@@ -42,6 +42,7 @@ Coin.prototype = {
 
 		// translate common shorthands and misinterpretations
 		switch(self.query) {
+			case 'ethereum classic': return "ethereum-classic";
 			default: return self.query;
 		}
 	},
@@ -52,6 +53,11 @@ Coin.prototype = {
 
 		switch(self.data.name) {
 			case 'Litecoin': return "<phoneme alphabet=\"ipa\" ph=\"ˈlaɪt.kɔɪn\">litecoin</phoneme>";
+			case 'EOS': return "E <phoneme alphabet=\"ipa\" ph=\"os\">eos</phoneme>";
+			case 'Zcash': return "Z <phoneme alphabet=\"ipa\" ph=\"kæʃ\">cash</phoneme>";
+			case 'Qtum': return "Q <phoneme alphabet=\"ipa\" ph=\"tʌm\">cash</phoneme>";
+			case 'Siacoin': return "<phoneme alphabet=\"ipa\" ph=\"ˈsia.kɔɪn\">siacoin</phoneme>";
+			case 'Dogecoin': return "<phoneme alphabet=\"ipa\" ph=\"ˈdoʒ.kɔɪn\">dogecoin</phoneme>";
 			default: return self.data.name;
 		}
 	},
@@ -74,9 +80,9 @@ Coin.prototype = {
 		var rank = self.data['rank'];
 
 		switch(rank) {
-			case '1': return "first"; break;
-			case '2': return "second"; break;
-			case '3': return "third"; break;
+			case '1': return "first";
+			case '2': return "second";
+			case '3': return "third";
 			default: return rank + 'th';
 		}
 	}
