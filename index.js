@@ -36,7 +36,7 @@ const handlers = {
 			this.emit(':tell', "The current price of " + coin.sayName() + " is " + coin.sayPrice());
 		}, (error) => {
 			console.log(error);
-			this.emit(':tell', "Sorry, either " + coinQuery + " is not a valid crypto currency or the market API is not reachable.  Please try saying a different name or try again later.");
+			this.emit(':tell', "Sorry, either " + coinQuery + " is not a recognized crypto currency or the market API is not reachable.  Please try saying a different name or try again later.");
 		});
 	},
 
