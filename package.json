@@ -5,7 +5,7 @@
   "main": "index.js",
   "scripts": {
     "test": "alexa-skill-test",
-    "deploy": "zip -r ../alexa-cryptomarket.zip * -x assets/\\* *.git/*"
+    "deploy": "./publish.sh"
   },
   "repository": {
     "type": "git",

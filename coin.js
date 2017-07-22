@@ -22,8 +22,6 @@ Coin.prototype = {
 		// look up the value of a single coin
 		return new Promise( function (resolve, reject) {
 
-			console.log('filteredCoinQuery', self.filteredCoinQuery());
-
 			coinmarketcap.tickerByAsset(self.filteredCoinQuery()).then(function(coinData) {
 				self.data = coinData;
 				resolve(coinData);
@@ -38,11 +36,19 @@ Coin.prototype = {
 		// reset context
 		var self = this;
 
-		console.log('running filteredCoinQuery');
+		console.log('processing query: ', self.query);
 
 		// translate common shorthands and misinterpretations
 		switch(self.query) {
-			case 'ethereum classic': return "ethereum-classic";
+			case 'cloak':
+				return "cloakcoin";
+			case 'dash coin':
+				return "dash";
+			case 'classic':
+			case 'ethereum classic':
+				return "ethereum-classic";
+			case 'stellar lumens':
+				return "stellar";
 			default: return self.query;
 		}
 	},
@@ -68,13 +74,20 @@ Coin.prototype = {
 		var self = this;
 		var value = self.data['price_usd'];
 
-		var dollars = Math.floor(value);
-		var cents = Math.round((value - dollars) * 100);
+		if(value < 0.01) {
+			return "less than 1 cent";
+		}
+		else {
+			var dollars = Math.floor(value);
+			var cents = Math.round((value - dollars) * 100);
 
-		return (cents > 0) ? dollars+" dollars and "+cents+" cents" : dollars + " dollars";
+			var dollarlabel = (dollars == 1) ? "dollar" : "dollars";
+
+			return (cents > 0) ? dollars + " " + dollarlabel + " and " + cents + " cents" : dollars + " " + dollarlabel;
+		}
 	},
 
-	sayRank: function() {
+	getRank: function() {
 		// reset context
 		var self = this;
 		var rank = self.data['rank'];

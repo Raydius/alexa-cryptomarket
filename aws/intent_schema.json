@@ -10,13 +10,16 @@
       "intent": "CoinPriceIntent"
     },
     {
-      "slots": [
-        {
-          "name": "Cryptocurrency",
-          "type": "CRYPTOCURRENCY"
-        }
-      ],
-      "intent": "AboutCoinIntent"
+      "intent": "ExitIntent"
+    },
+    {
+      "intent": "AMAZON.CancelIntent"
+    },
+    {
+      "intent": "AMAZON.YesIntent"
+    },
+    {
+      "intent": "AMAZON.NoIntent"
     }
   ]
 }

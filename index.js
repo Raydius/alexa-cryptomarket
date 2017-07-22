@@ -22,7 +22,7 @@ const states = {
 const handlers = {
 
 	// new session
-	'Start': function() {
+	'LaunchRequest': function() {
 		this.handler.state = states.WELCOME;
 		this.emitWithState('MainPrompt');
 	},
@@ -41,17 +41,17 @@ const handlers = {
 	},
 
 	'Unhandled': function() {
-		this.emit(':tell', "Sorry, I didn't understand that command" );
+		this.handler.state = states.WELCOME;
+		this.emitWithState('MainPrompt');
 	}
 };
 
 // these handlers apply when you have engaged with the app
-const welcomeHandlers = {
+const welcomeHandlers = Alexa.CreateStateHandler(states.WELCOME, {
 
 	// open/talk to/main menu
 	'MainPrompt': function() {
-		this.emit(':ask', 'What do you want to know about the crypto market?', 'Try saying "price of bitcoin" to get the current price ' +
-			'of bitcoin');
+		this.emit(':ask', 'What cryptocurrency do you want to know about?', 'What cryptocurrency do you want to know about? Try saying ethereum.');
 	},
 
 	'CoinPriceIntent': function() {
@@ -59,21 +59,33 @@ const welcomeHandlers = {
 		var coin = new Coin(coinQuery);
 
 		coin.getData().then((coinData) => {
-			this.emit(':tell', "The current price of " + coin.sayName() + " is " + coin.sayPrice());
+			this.emit(':ask', "The current price of " + coin.sayName() + " is " + coin.sayPrice() + '. Do you want me to look up another cryptocurrency?');
 		}, (error) => {
 			console.log(error);
-			this.emit(':tell', "Sorry, either " + coinQuery + " is not a valid crypto currency or the market API is not reachable.  Please try saying a different name or try again later.");
+			this.emit(':ask', "Sorry, either " + coinQuery + " is not a valid crypto currency or the market API is not reachable.  Do you want me to try a different cryptocurrency?");
 		});
 	},
 
+	'AMAZON.YesIntent': function() {
+		this.emitWithState('MainPrompt');
+	},
+
+	'AMAZON.NoIntent': function() {
+		this.emit('ExitIntent');
+	},
+
 	'AMAZON.CancelIntent': function() {
-		this.emit(':tell', 'Goodbye!');
+		this.emit('ExitIntent');
 	},
 
 	'ExitIntent': function() {
 		this.emit(':tell', 'Goodbye!');
+	},
+
+	'Unhandled': function() {
+		this.emit(':ask', "Sorry, I didn't understand that command.  What cryptocurrency do you want to know about?");
 	}
-};
+});
 
 // export this module
 exports.handler = function(event, context, callback) {

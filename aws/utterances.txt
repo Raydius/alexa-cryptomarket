@@ -11,8 +11,8 @@ CoinPriceIntent what {Cryptocurrency} is worth
 CoinPriceIntent what {Cryptocurrency} is trading at
 CoinPriceIntent what {Cryptocurrency} is valued at
 CoinPriceIntent how much is {Cryptocurrency}
-
-AboutCoinIntent about {Cryptocurrency}
-AboutCoinIntent what is {Cryptocurrency}
-AboutCoinIntent tell me about {Cryptocurrency}
-AboutCoinIntent what kind of coin is {Cryptocurrency}
+CoinPriceIntent {Cryptocurrency}
+CoinPriceIntent about {Cryptocurrency}
+CoinPriceIntent what is {Cryptocurrency}
+CoinPriceIntent tell me about {Cryptocurrency}
+CoinPriceIntent what kind of coin is {Cryptocurrency}
