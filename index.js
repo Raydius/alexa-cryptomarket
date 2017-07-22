@@ -36,7 +36,7 @@ const handlers = {
 			this.emit(':tell', "The current price of " + coin.sayName() + " is " + coin.sayPrice());
 		}, (error) => {
 			console.log(error);
-			this.emit(':tell', "Sorry, either " + coinQuery + " is not a recognized crypto currency or the market API is not reachable.  Please try saying a different name or try again later.");
+			this.emit(':tell', "Sorry, either " + coinQuery + " is not a recognized crypto currency or the market API is not reachable.  Please try again.");
 		});
 	},
 
@@ -71,19 +71,19 @@ const welcomeHandlers = Alexa.CreateStateHandler(states.WELCOME, {
 	},
 
 	'AMAZON.NoIntent': function() {
-		this.emit('ExitIntent');
+		this.emitWithState('ExitIntent');
 	},
 
 	'AMAZON.CancelIntent': function() {
-		this.emit('ExitIntent');
+		this.emitWithState('ExitIntent');
 	},
 
 	'ExitIntent': function() {
-		this.emit(':tell', 'Goodbye!');
+		this.emit(':tell', 'Goodbye');
 	},
 
 	'Unhandled': function() {
-		this.emit(':ask', "Sorry, I didn't understand that command.  What cryptocurrency do you want to know about?");
+		this.emit(':ask', "Sorry, I didn't understand that command.  What cryptocurrency do you want to know about?", 'What cryptocurrency do you want to know about? Try saying Bitcoin.');
 	}
 });
 

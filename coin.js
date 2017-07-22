@@ -40,6 +40,13 @@ Coin.prototype = {
 
 		// translate common shorthands and misinterpretations
 		switch(self.query) {
+			case 'light':
+			case 'coin':
+				return "litecoin";
+			case 'or':
+				return "bancor";
+			case 'bytecoin':
+				return 'bytecoin-bcn';
 			case 'cloak':
 				return "cloakcoin";
 			case 'dash coin':
