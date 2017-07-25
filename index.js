@@ -12,7 +12,7 @@ const Alexa = require('alexa-sdk');
 // initialize helper
 const Coin = require('./coin.js');
 
-const APP_ID = undefined;
+const APP_ID = "amzn1.ask.skill.6cc3e8fd-b9a0-4d1c-8566-87ee46152723";
 
 const states = {
 	WELCOME: '_WELCOME'
@@ -54,6 +54,10 @@ const handlers = {
 	'AMAZON.HelpIntent': function() {
 		this.handler.state = states.WELCOME;
 		this.emitWithState('AMAZON.HelpIntent');
+	},
+
+	'SessionEndedRequest': function() {
+		// do nothing (no response to SessionEndedRequest)
 	},
 
 	'Unhandled': function() {
@@ -114,6 +118,10 @@ const welcomeHandlers = Alexa.CreateStateHandler(states.WELCOME, {
 		this.emitWithState('ExitIntent');
 	},
 
+	'SessionEndedRequest': function() {
+		// do nothing (no response to SessionEndedRequest)
+	},
+
 	'ExitIntent': function() {
 		this.emit(':tell', 'Goodbye');
 	},
@@ -128,7 +136,7 @@ const welcomeHandlers = Alexa.CreateStateHandler(states.WELCOME, {
 // export this module
 exports.handler = function(event, context, callback) {
 	let alexa = Alexa.handler(event, context);
-	alexa.APP_ID = APP_ID;
+	alexa.appId = APP_ID;
 	alexa.registerHandlers(handlers, welcomeHandlers);
 	alexa.execute();
 };
