@@ -7,10 +7,10 @@
  */
 
 // initialize Alexa SDK
-var Alexa = require('alexa-sdk');
+const Alexa = require('alexa-sdk');
 
 // initialize helper
-var Coin = require('./coin.js');
+const Coin = require('./coin.js');
 
 const APP_ID = undefined;
 
@@ -27,17 +27,33 @@ const handlers = {
 		this.emitWithState('MainPrompt');
 	},
 
-	// ask about a coin price by name
+	// single shot, ask about a coin price by name
 	'CoinPriceIntent': function() {
-		var coinQuery = this.event.request.intent.slots['Cryptocurrency'].value;
-		var coin = new Coin(coinQuery);
 
-		coin.getData().then((coinData) => {
-			this.emit(':tell', "The current price of " + coin.sayName() + " is " + coin.sayPrice());
-		}, (error) => {
-			console.log(error);
-			this.emit(':tell', "Sorry, either " + coinQuery + " is not a recognized crypto currency or the market API is not reachable.  Please try again.");
-		});
+		let coinQuery = this.event.request.intent.slots['Cryptocurrency'].value;
+
+		// handle the misunderstood "help" intent
+		if(coinQuery == 'help') {
+			this.handler.state = states.WELCOME;
+			this.emitWithState('AMAZON.HelpIntent');
+		}
+		else {
+
+			let coin = new Coin(coinQuery);
+
+			coin.getData().then((coinData) => {
+				this.emit(':tell', "The current price of " + coin.sayName(coinData.name) + " is " + coin.sayPrice());
+			}, (error) => {
+				console.log(error);
+				this.emit(':tell', "Sorry, either " + coinQuery + " is not a recognized crypto currency or the market API is not reachable.  Please try again.");
+			});
+		}
+
+	},
+
+	'AMAZON.HelpIntent': function() {
+		this.handler.state = states.WELCOME;
+		this.emitWithState('AMAZON.HelpIntent');
 	},
 
 	'Unhandled': function() {
@@ -55,15 +71,23 @@ const welcomeHandlers = Alexa.CreateStateHandler(states.WELCOME, {
 	},
 
 	'CoinPriceIntent': function() {
-		var coinQuery = this.event.request.intent.slots['Cryptocurrency'].value;
-		var coin = new Coin(coinQuery);
+		let coinQuery = this.event.request.intent.slots['Cryptocurrency'].value;
 
-		coin.getData().then((coinData) => {
-			this.emit(':ask', "The current price of " + coin.sayName() + " is " + coin.sayPrice() + '. Do you want me to look up another cryptocurrency?');
-		}, (error) => {
-			console.log(error);
-			this.emit(':ask', "Sorry, either " + coinQuery + " is not a valid crypto currency or the market API is not reachable.  Do you want me to try a different cryptocurrency?");
-		});
+		// handle the misunderstood "help" intent
+		if(coinQuery == 'help') {
+			this.handler.state = states.WELCOME;
+			this.emitWithState('AMAZON.HelpIntent');
+		}
+		else {
+			let coin = new Coin(coinQuery);
+
+			coin.getData().then((coinData) => {
+				this.emit(':ask', "The current price of " + coin.sayName(coinData.name) + " is " + coin.sayPrice() + '. Do you want me to look up another cryptocurrency?');
+			}, (error) => {
+				console.log(error);
+				this.emit(':ask', "Sorry, either " + coinQuery + " is not a valid crypto currency or the market API is not reachable.  Do you want me to try a different cryptocurrency?");
+			});
+		}
 	},
 
 	'AMAZON.YesIntent': function() {
@@ -71,6 +95,18 @@ const welcomeHandlers = Alexa.CreateStateHandler(states.WELCOME, {
 	},
 
 	'AMAZON.NoIntent': function() {
+		this.emitWithState('ExitIntent');
+	},
+
+	'AMAZON.HelpIntent': function() {
+		let coin = new Coin();
+
+		this.emit(':ask',
+			'If you say the name of a cryptocurrency like '+ coin.sayName('Bitcoin')+', I can tell you the current market value in US dollars.  What cryptocurrency do you want to know about?',
+			'What cryptocurrency do you want to know about?  Try saying Bitcoin.');
+	},
+
+	'AMAZON.StopIntent': function() {
 		this.emitWithState('ExitIntent');
 	},
 
@@ -83,13 +119,15 @@ const welcomeHandlers = Alexa.CreateStateHandler(states.WELCOME, {
 	},
 
 	'Unhandled': function() {
-		this.emit(':ask', "Sorry, I didn't understand that command.  What cryptocurrency do you want to know about?", 'What cryptocurrency do you want to know about? Try saying Bitcoin.');
+		let coin = new Coin();
+
+		this.emit(':ask', "Sorry, I didn't understand that command.  What cryptocurrency do you want to know about?", 'What cryptocurrency do you want to know about? Try saying '+ coin.sayName('Bitcoin') + '.');
 	}
 });
 
 // export this module
 exports.handler = function(event, context, callback) {
-	var alexa = Alexa.handler(event, context);
+	let alexa = Alexa.handler(event, context);
 	alexa.APP_ID = APP_ID;
 	alexa.registerHandlers(handlers, welcomeHandlers);
 	alexa.execute();

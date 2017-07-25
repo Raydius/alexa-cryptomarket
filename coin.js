@@ -8,7 +8,9 @@ global.fetch = require('node-fetch');
 
 
 function Coin(query) {
-	this.query = query;
+	if(query) {
+		this.query = query;
+	}
 }
 
 
@@ -60,18 +62,17 @@ Coin.prototype = {
 		}
 	},
 
-	sayName: function() {
-		// reset context
-		var self = this;
-
-		switch(self.data.name) {
+	// pronunciation fixes
+	sayName: function(name) {
+		switch(name) {
+			case 'Bitcoin': return "<phoneme alphabet=\"ipa\" ph=\"ˈbɪt.kɔɪn\">Bitcoin</phoneme>";
 			case 'Litecoin': return "<phoneme alphabet=\"ipa\" ph=\"ˈlaɪt.kɔɪn\">litecoin</phoneme>";
 			case 'EOS': return "E <phoneme alphabet=\"ipa\" ph=\"os\">eos</phoneme>";
 			case 'Zcash': return "Z <phoneme alphabet=\"ipa\" ph=\"kæʃ\">cash</phoneme>";
 			case 'Qtum': return "Q <phoneme alphabet=\"ipa\" ph=\"tʌm\">cash</phoneme>";
 			case 'Siacoin': return "<phoneme alphabet=\"ipa\" ph=\"ˈsia.kɔɪn\">siacoin</phoneme>";
 			case 'Dogecoin': return "<phoneme alphabet=\"ipa\" ph=\"ˈdoʒ.kɔɪn\">dogecoin</phoneme>";
-			default: return self.data.name;
+			default: return name;
 		}
 	},
 
