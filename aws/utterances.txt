@@ -1,0 +1,18 @@
+CoinPriceIntent the current price of {Cryptocurrency}
+CoinPriceIntent the market price of {Cryptocurrency}
+CoinPriceIntent the price of {Cryptocurrency}
+CoinPriceIntent whats the current price of {Cryptocurrency}
+CoinPriceIntent whats the going rate of {Cryptocurrency}
+CoinPriceIntent what is {Cryptocurrency} priced at
+CoinPriceIntent what is {Cryptocurrency} worth
+CoinPriceIntent what is {Cryptocurrency} trading at
+CoinPriceIntent what is {Cryptocurrency} valued at
+CoinPriceIntent what {Cryptocurrency} is worth
+CoinPriceIntent what {Cryptocurrency} is trading at
+CoinPriceIntent what {Cryptocurrency} is valued at
+CoinPriceIntent how much is {Cryptocurrency}
+CoinPriceIntent {Cryptocurrency}
+CoinPriceIntent about {Cryptocurrency}
+CoinPriceIntent what is {Cryptocurrency}
+CoinPriceIntent tell me about {Cryptocurrency}
+CoinPriceIntent what kind of coin is {Cryptocurrency}

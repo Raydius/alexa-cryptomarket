@@ -1,0 +1,28 @@
+{
+  "name": "alexa-cryptomarket",
+  "version": "1.0.0",
+  "description": "Alexa skill for reporting cryptocurrency prices",
+  "main": "index.js",
+  "scripts": {
+    "test": "alexa-skill-test",
+    "deploy": "./publish.sh"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/Raydius/alexa-cryptomarket.git"
+  },
+  "author": "Ray Dollete",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/Raydius/alexa-cryptomarket/issues"
+  },
+  "homepage": "https://github.com/Raydius/alexa-cryptomarket#readme",
+  "dependencies": {
+    "alexa-sdk": "^1.0.11",
+    "coinmarketcap": "^0.2.0",
+    "node-fetch": "^1.7.1",
+    "querystring": "^0.2.0",
+    "request": "^2.81.0",
+    "request-promise": "^4.2.1"
+  }
+}
