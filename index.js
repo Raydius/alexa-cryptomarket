@@ -42,7 +42,7 @@ const handlers = {
 			let coin = new Coin(coinQuery);
 
 			coin.getData().then((coinData) => {
-				this.emit(':tell', "The current price of " + coin.sayName(coinData.name) + " is " + coin.sayPrice());
+				this.emit(':tell', "The current price of " + coin.sayName(coinData.name) + " is " + coin.sayPrice() + ", " + coin.sayChange() + '.');
 			}, (error) => {
 				console.log(error);
 				this.emit(':tell', "Sorry, either " + coinQuery + " is not a recognized crypto currency or the market API is not reachable.  Please try again.");

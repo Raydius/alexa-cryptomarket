@@ -72,6 +72,7 @@ Coin.prototype = {
 			case 'Qtum': return "Q <phoneme alphabet=\"ipa\" ph=\"tʌm\">cash</phoneme>";
 			case 'Siacoin': return "<phoneme alphabet=\"ipa\" ph=\"ˈsia.kɔɪn\">siacoin</phoneme>";
 			case 'Dogecoin': return "<phoneme alphabet=\"ipa\" ph=\"ˈdoʒ.kɔɪn\">dogecoin</phoneme>";
+			case 'VeChain': return "V Chain";
 			default: return name;
 		}
 	},
@@ -94,6 +95,18 @@ Coin.prototype = {
 			return (cents > 0) ? dollars + " " + dollarlabel + " and " + cents + " cents" : dollars + " " + dollarlabel;
 		}
 	},
+
+	// helper to express 24-hour value change
+	sayChange: function() {
+		// reset context
+		var self = this;
+
+		// get 24 hour change data
+		var change = parseFloat(self.data['percent_change_24h']);
+
+		return (change >= 0) ? 'an increase of ' : 'a decrease of ' + Math.abs(change) + ' percent over the past 24 hours';
+	},
+
 
 	getRank: function() {
 		// reset context
